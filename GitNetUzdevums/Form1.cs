@@ -1,80 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+using System;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WindowsFormsApplication_15
+namespace GitNetUzdevums
 {
-    public partial class Form1 : Form
+    public class Form1 : Form
     {
+        private GroupBox groupBox;
+        private Button drawButton;
+
         public Form1()
         {
-            InitializeComponent();
+            this.Text = "GitNet Uzdevums";
+            this.Width = 600;
+            this.Height = 400;
+
+            groupBox = new GroupBox();
+            groupBox.Text = "Marija Priticka";
+            groupBox.Location = new Point(30, 30);
+            groupBox.Size = new Size(200, 100);
+
+            drawButton = new Button();
+            drawButton.Text = "sin(x)";
+            drawButton.Location = new Point(50, 40);
+            drawButton.Click += DrawButton_Click;
+
+            groupBox.Controls.Add(drawButton);
+            this.Controls.Add(groupBox);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void DrawButton_Click(object sender, EventArgs e)
         {
-            double m = 30; //mērogs
-            int xc = pictureBox1.Width / 2;   // centra koordinātes
-            int yc = pictureBox1.Height / 2;
-            int xe, ye;     // punktu "ekrāna" koordinātes
-            double x, y;   // punktu "matemātiskās" koordinātes
-            double step = 0.005;    // solis
-            Graphics G = pictureBox1.CreateGraphics();
-            G.Clear(System.Drawing.Color.White);
-            Pen myPen = new Pen(Color.Silver);
-            G.DrawLine(myPen, 10, yc, 2 * xc - 10, yc);   // asis
-            G.DrawLine(myPen, xc, 10, xc, 2 * yc - 10);
-            myPen = new Pen(Color.Black);
-            x = -Math.PI;
-            // funkcijas grafika konstruēšanas cikls
-            while (x < Math.PI)
+            Graphics g = this.CreateGraphics();
+            Pen pen = new Pen(Color.Blue);
+            for (int x = 0; x < 360; x++)
             {
-                try   // ja funkcija kādā punktā neeksistē 
-                {
-                    y = 1/Math.Sin(x);   // Funkcijas formula!!!
-                    xe = (int)(xc + m * x);
-                    ye = (int)(yc - m * y);
-                    G.DrawEllipse(myPen, xe, ye, 1, 1);
-                }
-                catch { }
-                x += step;
-            }
-        }
-
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            double m = 30; //mērogs
-            int xc = pictureBox1.Width / 2;   // centra koordinātes
-            int yc = pictureBox1.Height / 2;
-            int xe, ye;     // punktu "ekrāna" koordinātes
-            double x, y;   // punktu "matemātiskās" koordinātes
-            double step = 0.005;    // solis
-            Graphics G = pictureBox1.CreateGraphics();
-            G.Clear(System.Drawing.Color.White);
-            Pen myPen = new Pen(Color.Silver);
-            G.DrawLine(myPen, 10, yc, 2 * xc - 10, yc);   // asis
-            G.DrawLine(myPen, xc, 10, xc, 2 * yc - 10);
-            myPen = new Pen(Color.Black);
-            x = -Math.PI;
-            // funkcijas grafika konstruēšanas cikls
-            while (x < Math.PI)
-            {
-                try   // ja funkcija kādā punktā neeksistē 
-                {
-                    y = x * x; // Funkcijas formula!!!
-                    xe = (int)(xc + m * x);
-                    ye = (int)(yc - m * y);
-                    G.DrawEllipse(myPen, xe, ye, 1, 1);
-                }
-                catch { }
-                x += step;
+                int y = (int)(100 * Math.Sin(x * Math.PI / 180));
+                g.DrawEllipse(pen, x + 250, 150 - y, 2, 2);
             }
         }
     }
